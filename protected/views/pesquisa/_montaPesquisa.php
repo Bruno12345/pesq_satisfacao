@@ -25,7 +25,7 @@
                                 'label' => $oSegmento->nome,
                                 'htmlOptions' => array(
                                     'onclick' => 'js:jQuery(this).toggleClass("btn-primary btn-success");'
-                                    . 'adicionaPerguntas(' . $oSegmento->id . ', "' . $oSegmento->nome . '", jQuery(this).hasClass("active"));'
+                                    . 'adicionaPerguntas(' . $oSegmento->id . ', jQuery(this).hasClass("active"));'
                                 ),
                             );
                         }
@@ -42,7 +42,7 @@
                 </div>
                 <div class="span8">
                     <div class="row-fluid" id="bodyContentQuestion" style="border-left: solid; ">
-                        
+                        <?php echo SegmentoHelper::renderizaSegmento($aSegmento); ?>
                     </div>
                 </div>
             </div>

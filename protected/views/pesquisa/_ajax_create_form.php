@@ -116,24 +116,18 @@ jQuery("#wizard").steps({
     }
 });
 
-function adicionaPerguntas(idSegmento, nome, botaoAtivo) {
-    var idPergunta = "Pesquisa_Pergunta_"+ jQuery('#pesquisa-id').val() +"_"+ jQuery('#cliente-id').val() +"_"+ idSegmento;
-    var buttoGroup = "<input name='Pesquisa[Pergunta_"+ jQuery('#pesquisa-id').val() +"_"+ jQuery('#cliente-id').val() +"_"+ idSegmento +"]' type='hidden' id='" + idPergunta + "_hidden'>";
-        buttoGroup +="<div style='display: none;' class=\"span12\" id='" + idPergunta + "'>"+ nome +" &nbsp;";
-        buttoGroup +="    <div class='btn-group'>";
-        buttoGroup +="        <a class='btn btn-info btn-mini'>1</a>";
-        buttoGroup +="        <a class='btn btn-info btn-mini'>2</a>";
-        buttoGroup +="        <a class='btn btn-info btn-mini'>3</a>";
-        buttoGroup +="        <a class='btn btn-info btn-mini'>4</a>";
-        buttoGroup +="        <a class='btn btn-info btn-mini'>5</a>";
-        buttoGroup +="    </div>";
-        buttoGroup +="</div>";
+function adicionaPerguntas(idSegmento, botaoAtivo) {
+    var pergunta = '{"Pesquisa": "' + jQuery('#pesquisa-id').val() + '","Cliente": "' + jQuery('#cliente-id').val() + '","Segmento": "' + idSegmento + '"}';
     if (!botaoAtivo) {
-        jQuery("#bodyContentQuestion").append(buttoGroup);
-        jQuery('#' + idPergunta).show('slow');
+        jQuery('#' + idSegmento).show('slow', function(){resizeJquerySteps();});
+        jQuery('#' + idSegmento + '_hidden').val(pergunta);
     } else {
-        jQuery('#' + idPergunta).remove();
-        jQuery('#' + idPergunta + '_hidden').remove();
+        jQuery('#' + idSegmento).hide('slow', function(){resizeJquerySteps();});
+        jQuery('#' + idSegmento + '_hidden').val('false');
     }
+}
+
+function resizeJquerySteps() {
+	$('.wizard .content').animate({ height: $('.body.current').outerHeight() }, "slow");
 }
 </script>
