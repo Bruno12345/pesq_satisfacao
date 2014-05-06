@@ -64,9 +64,9 @@ success:function(data){
 
 function renderCreateForm(id)
 {
+	$('.modal').css('width', '800px');
+	$('.modal').css('left', '45%');
 	if(id == undefined){
-	  $('.modal').css('width', '800px');
-	  $('.modal').css('left', '45%');
 	  $('#segmento-view-modal').modal('hide');
 	}
 	$.ajax({
@@ -214,6 +214,7 @@ $(document).on("click", "[id^='adiciona-sub-categoria-']", function(){
 		success: function(result){
 			$('#mensagem-sub-categoria-'+categoriaId).replaceWith($('#mensagem-sub-categoria-'+categoriaId,result));
 			$('#categoria-grid-'+categoriaId).replaceWith($('#categoria-grid-'+categoriaId,result));
+			$('#descricao-sub-categoria-'+categoriaId).val("");
 		},
 		error: function(request, error) {
 			console.log(error);
@@ -238,6 +239,7 @@ $(document).on("click", "#adiciona-categoria", function(){
 			}else{
 				$('#mensagem-categoria').hide("200");
 				$('#mensagem-categoria').html("");
+				$("#descricao_categoria").val("");
 				$.fn.yiiGridView.update('categoria-grid', {
 					url: '<?php echo Yii::app()->createUrl('categoria/update'); ?>',
 					type: 'POST',

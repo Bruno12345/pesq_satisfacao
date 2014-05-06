@@ -336,6 +336,38 @@ class PesquisaSubCategoriaPrestadoraController extends Controller
 
     public function actionAdicionaPergunta()
     {
-        print_r($_POST);
+        if (empty($_POST['Pesquisa'])) {
+            return false;
+        }
+        foreach ($_POST['Pesquisa'] as $sPesquisa) {
+            $aPesquisa = CJSON::decode($sPesquisa, true);
+            if (empty($aPesquisa)) {
+                return false;
+            }
+            if (!PesquisaSubCategoriaPrestadoraController::criaOuAtualizaPergunta($aPesquisa)) {
+                return false;
+            }
+        }
+        return true;
     }
+
+    public static function criaOuAtualizaPergunta($aPesquisa)
+    {
+        $aCategoria = Categoria::model()->findAllByAttributes(array('segmento_id' => $aPesquisa['Segmento']));
+        if (empty($aCategoria)) {
+            return false;
+        }
+        foreach ($aCategoria as $oCategoria) {
+            $oCategoria instanceof Categoria;
+            if (empty($oCategoria->subCategorias)) {
+                return false;
+            }
+            $aPesquisa['Pergunta'] = $oCategoria->subCategorias;
+            if (!PesquisaSubCategoriaPrestadora::criaOuAtualizaPergunta($aPesquisa)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

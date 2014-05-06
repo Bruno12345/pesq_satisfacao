@@ -42,7 +42,7 @@
                 </div>
                 <div class="span8">
                     <div class="row-fluid" id="bodyContentQuestion" style="border-left: solid; ">
-                        <?php echo SegmentoHelper::renderizaSegmento($aSegmento); ?>
+                        <?php echo SegmentoHelper::renderizaSegmento($aSegmento, $this); ?>
                     </div>
                 </div>
             </div>

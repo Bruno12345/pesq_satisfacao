@@ -31,7 +31,7 @@ class PesquisaController extends Controller {
                 'users' => array('*'),
             ),
             array('allow', // allow authenticated user to perform 'create' and 'update' actions
-                'actions' => array('create', 'update', 'GeneratePdf', 'GenerateExcel'),
+                'actions' => array('create', 'update', 'GeneratePdf', 'GenerateExcel', 'atualizaDadosTela'),
                 'users' => array('*'),
             ),
             array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -42,6 +42,23 @@ class PesquisaController extends Controller {
                 'users' => array('*'),
             ),
         );
+    }
+
+    public function actionAtualizaDadosTela()
+    {
+
+        if(isset($_REQUEST["id"]) && is_numeric($_REQUEST["id"])){
+            $model = $this->loadModel($_REQUEST["id"]);
+        }else{
+            $model = new Pesquisa();
+        }
+
+
+        $this->render('_form',array(
+           'model'=> $model,
+        ));
+
+        return; 
     }
 
     /**

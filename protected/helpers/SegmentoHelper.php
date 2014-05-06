@@ -7,7 +7,7 @@
  */
 class SegmentoHelper
 {
-    public static function renderizaSegmento($aSegmento)
+    public static function renderizaSegmento($aSegmento, $oController)
     {
         $html = '';
         foreach ($aSegmento as $oSegmento) {
@@ -15,17 +15,15 @@ class SegmentoHelper
             if (empty($oSegmento->categorias)) {
                 continue;
             }
-            $html .= "<input name='Pesquisa[Segmento_" . $oSegmento->id . "]' type='hidden' id='" . $oSegmento->id . "_hidden'>";
-            $html .= "<div style='display: none;' class=\"span12\" id='" . $oSegmento->id . "'>&nbsp;";
+            $html .= "<div style='display: none;' class=\"span12\" id='Pesquisa_Segmento_" . $oSegmento->id . "'>&nbsp;";
             $html .= CHtml::tag('h3', array(), $oSegmento->nome);
-            //$html .= "<div style='border-bottom: solid;'></div>";
-            $html .= self::renderizaCategoria($oSegmento->categorias);
+            $html .= self::renderizaCategoria($oSegmento->categorias, $oController);
             $html .= '</div>';
         }
         return $html;
     }
 
-    public static function renderizaCategoria($aCategoria)
+    public static function renderizaCategoria($aCategoria, $oController)
     {
         $html = '<div>';
         foreach ($aCategoria as $oCategoria) {
@@ -34,28 +32,45 @@ class SegmentoHelper
                 continue;
             }
             $html .= CHtml::tag('h5', array(), $oCategoria->nome);
-            //$html .= CHtml::tag('div', array('style'=>'border-bottom: solid'));
             $html .= "<div style='border-bottom: dotted;'></div>";
-            $html .= self::renderizaSubCategoria($oCategoria->subCategorias);
+            $html .= self::renderizaSubCategoria($oCategoria->subCategorias, $oController);
         }
         $html .= '</div>';
         return $html;
     }
 
-    public static function renderizaSubCategoria($aSubCategoria)
+    public static function renderizaSubCategoria($aSubCategoria, $oController)
     {
         $html = '';
+        $oController instanceof PesquisaController;
         foreach ($aSubCategoria as $oSubCategoria) {
             $oSubCategoria instanceof SubCategoria;
             $html .="<div class='row-fluid'>";
             $html .="    <div id='" . $oSubCategoria->id . "' class='span8' >" . $oSubCategoria->nome . " &nbsp;";
             $html .="    </div>";
             $html .="    <div class='btn-group span4'>";
-            $html .="        <a class='btn btn-info btn-mini'>1</a>";
-            $html .="        <a class='btn btn-info btn-mini'>2</a>";
-            $html .="        <a class='btn btn-info btn-mini'>3</a>";
-            $html .="        <a class='btn btn-info btn-mini'>4</a>";
-            $html .="        <a class='btn btn-info btn-mini'>5</a>";
+            $html .= "<input name='Pesquisa[Pergunta_" . $oSubCategoria->id . "]' type='hidden' id='Pesquisa_Pergunta_" . $oSubCategoria->id . "_hidden' value='false'>";
+            $html .= $oController->widget(
+                'bootstrap.widgets.TbSelect2',
+                array(
+                    'name' => 'selectInput',
+                    'options'=>array(
+                        'placeholder'=>'Digite uma prestadora',
+                        'allowClear'=>true,
+                        'width' => '100%',
+                    ),
+                    'htmlOptions' => array(
+                        'id' => 'Prestadora_Pergunta_' . $oSubCategoria->id,
+                    ),
+                    'data'=> CHtml::listData(Prestadora::model()->findAll(), 'id', 'descricao'),
+                ),
+                true
+            );
+//            $html .="        <a class='btn btn-info btn-mini'>1</a>";
+//            $html .="        <a class='btn btn-info btn-mini'>2</a>";
+//            $html .="        <a class='btn btn-info btn-mini'>3</a>";
+//            $html .="        <a class='btn btn-info btn-mini'>4</a>";
+//            $html .="        <a class='btn btn-info btn-mini'>5</a>";
             $html .="    </div>";
             $html .="</div>";
         }

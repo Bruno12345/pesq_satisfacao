@@ -113,6 +113,14 @@ class Cliente extends CActiveRecord
 		return parent::model($className);
 	}
 
+    public function defaultScope()
+    {
+        return array(
+            'condition'=> '"cliente".desativado = 0 ',
+            'alias'=> "cliente",
+        );
+    }
+
     public function getDescricao()
     {
         return $this->cnpj . ' - ' . $this->nome_fantasia;

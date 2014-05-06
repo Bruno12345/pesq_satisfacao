@@ -1,7 +1,7 @@
 <h1>Nome da pesquisa</h1>
 <div>
 
-    <div class="form">
+    <div class="form" id="div-form-pesquisa">
         <?php
         $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
             'id' => 'pesquisa-form',

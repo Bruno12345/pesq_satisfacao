@@ -26,7 +26,7 @@ $form instanceof TbActiveForm;
 			<div class="span4 row-fluid">
 
 				<?php echo $form->label($model,'nome', array('class' => 'span2', 'id' => "nome-categoria")); ?>
-				<?php echo $form->textField($model,'nome', array('class' => 'span6', 'style' => 'float:left')); ?>
+				<?php echo $form->textField($model,'nome', array('class' => 'span6', 'style' => 'float:left', 'id' => 'descricao_categoria')); ?>
 				<?php echo CHtml::htmlButton("<i class='icon-plus'></i>", array( 'class'=>"btn btn-success", 'id' => 'adiciona-categoria')); ?>
 				<?php echo $form->hiddenField($model,'segmento_id',array('class'=>'span3', 'id' => 'segmento-id-categoria')); ?>
 

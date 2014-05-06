@@ -20,20 +20,35 @@
 
 <script type="text/javascript">
 
-function renderCreateForm()
+function renderCreateForm(id)
 {
-  $('#pesquisa-create-form').each (function(){
-  this.reset();
-   });
+    $('.modal').css('width', '967px');
+    $('.modal').css('left', '33%');
+    if(id == undefined){
+        $('#pesquisa-view-modal').modal('hide');
+    }
 
-  $('.modal').css('width', '967px');
-  $('.modal').css('left', '33%');
+    $.ajax({
+        type: 'POST',
+        async: false,
+        url: '<?php echo Yii::app()->createUrl('pesquisa/atualizaDadosTela'); ?>',
+        data : {id:id},
+        success: function(result){
+            $('#div-form-pesquisa').html($('#div-form-pesquisa',result).html());
+        },
+        error: function(request, error) {
+            console.log(error);
+            sucesso= false;
+        },
+    });
 
-  $('#pesquisa-view-modal').modal('hide');
-  $('#pesquisa-create-modal').modal({
-   show:true
- });
+    $('#pesquisa-create-modal').modal({
+        show:true
+    });
+    resizeJquerySteps();
 }
+
+$('#pesquisa-create-modal').on('show',function(){if($( "#wizard" ).steps('getCurrentIndex') > 0) $( "#wizard" ).steps('reset')});
 
 passo0 = function(){
 	sucesso = true;
@@ -101,11 +116,8 @@ jQuery("#wizard").steps({
 							break;
 						}
 					},
-    onFinishing: function (event, currentIndex) {
-                    finalizando();
-                    return false;
-                },
-
+    onFinishing: function (event, currentIndex) { if(!finalizando()){return false} window.location.reload(true);},
+    onStepChanged: function (event, currentIndex, priorIndex) { resizeJquerySteps(); },
     labels: {
         current: "Passo atual:",
         pagination: "Paginação",
@@ -119,11 +131,11 @@ jQuery("#wizard").steps({
 function adicionaPerguntas(idSegmento, botaoAtivo) {
     var pergunta = '{"Pesquisa": "' + jQuery('#pesquisa-id').val() + '","Cliente": "' + jQuery('#cliente-id').val() + '","Segmento": "' + idSegmento + '"}';
     if (!botaoAtivo) {
-        jQuery('#' + idSegmento).show('slow', function(){resizeJquerySteps();});
-        jQuery('#' + idSegmento + '_hidden').val(pergunta);
+        jQuery('#Pesquisa_Segmento_' + idSegmento).show('slow', function(){resizeJquerySteps();});
+        jQuery('#Pesquisa_Segmento_' + idSegmento + '_hidden').val(pergunta);
     } else {
-        jQuery('#' + idSegmento).hide('slow', function(){resizeJquerySteps();});
-        jQuery('#' + idSegmento + '_hidden').val('false');
+        jQuery('#Pesquisa_Segmento_' + idSegmento).hide('slow', function(){resizeJquerySteps();});
+        jQuery('#Pesquisa_Segmento_' + idSegmento + '_hidden').val('false');
     }
 }
 

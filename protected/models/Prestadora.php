@@ -110,4 +110,17 @@ class Prestadora extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function defaultScope()
+    {
+        return array(
+            'condition'=> '"prestadora".desativado = 0 ',
+            'alias'=> "prestadora",
+        );
+    }
+
+    public function getDescricao()
+    {
+        return $this->cnpj . ' - ' . $this->nome_fantasia;
+    }
 }

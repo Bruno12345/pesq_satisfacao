@@ -1,4 +1,4 @@
-<h1>Subcategoria</h1>
+<h1>Pergunta</h1>
 <div>
 	<div class="form" id="form-sub-categoria">
 		<fieldset>
@@ -36,7 +36,7 @@
 					echo CHtml::openTag("div", array('class' => "span4 row-fluid"));
 					echo $form->hiddenField($model, 'categoria_id');
 					echo $form->label($model, 'nome', array('class' => 'span2', 'id' => "nome-categoria-$categoriaId"));
-					echo $form->textField($model, 'nome', array('class' => 'span6', 'style' => 'float:left'));
+					echo $form->textField($model, 'nome', array('class' => 'span6', 'style' => 'float:left', 'id' => "descricao-sub-categoria-$categoriaId"));
 					echo CHtml::htmlButton("<i class='icon-plus'></i>", array('class' => "btn btn-success", 'id' => "adiciona-sub-categoria-$categoriaId", 'categoriaId' => "$categoriaId"));
 					echo CHtml::closeTag("div");
 					echo CHtml::closeTag("div");

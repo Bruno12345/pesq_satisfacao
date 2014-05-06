@@ -36,7 +36,8 @@ class PesquisaSubCategoriaPrestadora extends CActiveRecord
 			array('sub_categoria_id, pesquisa_id, prestadora_id', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, sub_categoria_id, pesquisa_id, prestadora_id', 'safe', 'on'=>'search'),
+			array('sub_categoria_id, pesquisa_id, prestadora_id', 'safe'),
+			array('id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -106,4 +107,36 @@ class PesquisaSubCategoriaPrestadora extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function defaultScope()
+    {
+        return array(
+            'condition'=> '"pesquisaSubCategoriaPrestadora".desativado = 0 ',
+            'alias'=> "pesquisaSubCategoriaPrestadora",
+        );
+    }
+
+    public static function criaOuAtualizaPergunta($aPesquisa)
+    {
+        if (empty($aPesquisa)) {
+            return false;
+        }
+        foreach ($aPesquisa['Pergunta'] as $oPergunta) {
+            $attribute = array(
+                'sub_categoria_id' => $oPergunta->id,
+                'pesquisa_id' => $aPesquisa['Pesquisa'],
+                'prestadora_id' => $aPesquisa['Prestadora'],
+            );
+            $oPesquisa = PesquisaSubCategoriaPrestadora::model()->findByAttributes($attribute);
+            if (empty($oPesquisa)) {
+                $oPesquisa = new PesquisaSubCategoriaPrestadora();
+                $oPesquisa->attributes = $attribute;
+            }
+            if (!$oPesquisa->save()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

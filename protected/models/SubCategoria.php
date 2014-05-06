@@ -49,7 +49,7 @@ class SubCategoria extends CActiveRecord
 		}
 		
 		if(self::model()->exists($criteria)){
-			$this->addError("nome", Yii::t('sistema',"Subcategoria existente para esta categoria!"));
+			$this->addError("nome", Yii::t('sistema',"Pergunta existente para esta categoria!"));
 		}
 	}
 
@@ -86,7 +86,7 @@ class SubCategoria extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'nome' => 'Nome',
+			'nome' => 'Pergunta',
 			'categoria_id' => 'Categoria',
 			'desativado' => 'Desativado',
 		);
@@ -150,7 +150,7 @@ class SubCategoria extends CActiveRecord
 		if(is_null($this->categoria_id)) throw new CHttpException(400,'Categoria inexistente!');
 		
 		if(!SubCategoria::model()->exists(" categoria_id = {$this->categoria_id} ")){
-			$this->addError("nome", Yii::t("sistema","Por favor, insira pelo menos uma Subcategoria!"));
+			$this->addError("nome", Yii::t("sistema","Por favor, insira pelo menos uma pergunta!"));
 		}
 	}
 }
